@@ -6,6 +6,6 @@ import retrofit2.http.GET
 import xr.muhammad.hammertesttask.api.models.FoodResponse
 
 interface FoodApi {
-    @GET
-    fun getAllData(): Response<FoodResponse>
+    @GET("ru.json")
+    suspend fun getAllData(): Response<FoodResponse>
 }

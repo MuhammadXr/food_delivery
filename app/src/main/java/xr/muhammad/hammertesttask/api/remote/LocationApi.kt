@@ -10,8 +10,8 @@ private val APIKEY = "650c4be4-ce15-446e-81ef-99525c200558"
 
 interface LocationApi {
 
-    @GET("endpoint")
-    fun getLocations(
+    @GET()
+    suspend fun getLocations(
         @Query("apikey") apikey: String = APIKEY,
         @Query("geocode") search: String,
         @Query("results") result: Int = 5,

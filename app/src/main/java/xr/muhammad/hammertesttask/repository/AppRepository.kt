@@ -5,8 +5,8 @@ import xr.muhammad.hammertesttask.api.models.LocationResponse
 
 interface AppRepository {
 
-    fun getAllFoodData(): FoodResponse?
+    suspend fun getAllFoodData(): FoodResponse?
 
-    fun searchLocation(search: String): LocationResponse?
+    suspend fun searchLocation(search: String): LocationResponse?
 
 }

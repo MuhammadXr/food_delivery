@@ -9,11 +9,17 @@ import xr.muhammad.hammertesttask.api.models.LocationResponse
 
 interface HomeViewModel {
     val locationState: StateFlow<GeoObject>
-    val queryLocations: StateFlow<FeatureMember>
+    val queryLocations: StateFlow<List<FeatureMember>>
     val allBanners: StateFlow<List<Banner>>
     val allCategory: StateFlow<List<Category>>
+
+    val locationError: StateFlow<Boolean>
+    val foodError: StateFlow<Boolean>
 
     fun getLocations(search: String)
 
     fun getAllFoodData()
+
+    fun setLocation(geoObject: GeoObject)
+
 }

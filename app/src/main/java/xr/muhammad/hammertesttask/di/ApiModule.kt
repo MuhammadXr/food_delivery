@@ -24,7 +24,7 @@ class ApiModule {
     fun provideFoodApi(): FoodApi {
         val loggingInterceptor = HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
 
-        val BASE_URL = "https://maxway.uz/_next/data/_bxrNVTML5k0YvfNPB_x4/ru.json"
+        val BASE_URL = "https://maxway.uz/_next/data/_bxrNVTML5k0YvfNPB_x4/"
 
         val client = OkHttpClient.Builder()
             .writeTimeout(10, TimeUnit.SECONDS)

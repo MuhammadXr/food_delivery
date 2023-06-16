@@ -15,7 +15,7 @@ class AppRepositoryImpl @Inject constructor(
 
 
 
-    override fun getAllFoodData(): FoodResponse? {
+    override suspend fun getAllFoodData(): FoodResponse? {
         val response = foodApi.getAllData()
         return if (response.isSuccessful){
             response.body()
@@ -24,8 +24,8 @@ class AppRepositoryImpl @Inject constructor(
         }
     }
 
-    override fun searchLocation(search: String): LocationResponse? {
-        val response = locationApi.getLocations(search)
+    override suspend fun searchLocation(search: String): LocationResponse? {
+        val response = locationApi.getLocations(search = search)
         return if (response.isSuccessful){
             response.body()
         }else{
