@@ -27,12 +27,12 @@ fun SetupGraph(
         composable(
             route = Screen.Profile.route
         ) {
-            ProfileScreen(navController).Content()
+            ProfileScreen(navController, padding).Content()
         }
         composable(
             route = Screen.Cart.route
         ) {
-            CartScreen(navController).Content()
+            CartScreen(navController, padding).Content()
         }
     }
 }

@@ -5,6 +5,7 @@
 package xr.muhammad.hammertesttask.api.models
 
 import com.beust.klaxon.*
+import com.google.gson.annotations.SerializedName
 
 private fun <T> Klaxon.convert(k: kotlin.reflect.KClass<*>, fromJson: (JsonValue) -> T, toJson: (T) -> String, isUnion: Boolean = false) =
     this.converter(object: Converter {
@@ -19,10 +20,8 @@ private val klaxon = Klaxon()
     .convert(Type::class,     { Type.fromValue(it.string!!) },     { "\"${it.value}\"" })
 
 data class FoodResponse (
-    val pageProps: PageProps? = null,
-
-    @Json(name = "__N_SSP")
-    val nSSP: Boolean? = null
+    val categories: List<Category>? = null,
+    val count: String? = null
 ) {
     public fun toJson() = klaxon.toJsonString(this)
 
@@ -31,111 +30,59 @@ data class FoodResponse (
     }
 }
 
-data class PageProps (
-    val banners: List<Banner>? = null,
-    val categories: List<Category>? = null,
-    val popups: Any? = null,
+data class Category (
 
-    @Json(name = "__lang")
-    val lang: String? = null,
+    @SerializedName("id"               ) var id              : String?             = null,
+    @SerializedName("slug"             ) var slug            : String?             = null,
+    @SerializedName("parent_id"        ) var parentId        : String?             = null,
+    @SerializedName("image"            ) var image           : String?             = null,
+    @SerializedName("description"      ) var description     : Description?        = Description(),
+    @SerializedName("title"            ) var title           : Title?              = Title(),
+    @SerializedName("order_no"         ) var orderNo         : String?             = null,
+    @SerializedName("active"           ) var active          : Boolean?            = null,
+    @SerializedName("products"         ) var products        : List<Product> = arrayListOf(),
+    @SerializedName("child_categories" ) var childCategories : String?             = null
 
-    @Json(name = "__namespaces")
-    val namespaces: Namespaces? = null
 )
 
-data class Banner (
-    val id: String? = null,
-    val title: Title? = null,
-    val position: String? = null,
-    val image: String? = null,
-    val url: String? = null,
-    val active: Boolean? = null,
-
-    @Json(name = "created_at")
-    val createdAt: String? = null,
-
-    @Json(name = "updated_at")
-    val updatedAt: String? = null,
-
-    @Json(name = "shipper_id")
-    val shipperID: String? = null,
-
-    val about: String? = null
-)
-
-data class Title (
+data class Description (
     val uz: String? = null,
     val ru: String? = null,
     val en: String? = null
 )
 
-data class Category (
-    val id: String? = null,
-    val slug: String? = null,
+data class Product (
 
-    @Json(name = "parent_id")
-    val parentID: String? = null,
+    @SerializedName("id"             ) var id           : String?           = null,
+    @SerializedName("out_price"      ) var outPrice     : Int?              = null,
+    @SerializedName("currency"       ) var currency     : String?           = null,
+    @SerializedName("string"         ) var string       : String?           = null,
+    @SerializedName("type"           ) var type         : String?           = null,
+    @SerializedName("categories"     ) var categories   : ArrayList<String> = arrayListOf(),
+    @SerializedName("brand_id"       ) var brandId      : String?           = null,
+    @SerializedName("rate_id"        ) var rateId       : String?           = null,
+    @SerializedName("image"          ) var image        : String?           = null,
+    @SerializedName("active_in_menu" ) var activeInMenu : Boolean?          = null,
+    @SerializedName("has_modifier"   ) var hasModifier  : Boolean?          = null,
+    @SerializedName("from_time"      ) var fromTime     : String?           = null,
+    @SerializedName("to_time"        ) var toTime       : String?           = null,
+    @SerializedName("off_always"     ) var offAlways    : Boolean?          = null,
+    @SerializedName("gallery"        ) var gallery      : String?           = null,
+    @SerializedName("title"          ) var title        : Title?            = Title(),
+    @SerializedName("description"    ) var description  : Description?      = Description(),
+    @SerializedName("active"         ) var active       : Boolean?          = null,
+    @SerializedName("iiko_id"        ) var iikoId       : String?           = null,
+    @SerializedName("jowi_id"        ) var jowiId       : String?           = null,
+    @SerializedName("discounts"      ) var discounts    : String?           = null
 
-    val image: String? = null,
-    val description: Title? = null,
-    val title: Title? = null,
-
-    @Json(name = "order_no")
-    val orderNo: String? = null,
-
-    val active: Boolean? = null,
-    val products: List<Product>? = null,
-
-    @Json(name = "child_categories")
-    val childCategories: Any? = null
 )
 
-data class Product (
-    val id: String? = null,
+data class Title (
 
-    @Json(name = "out_price")
-    val outPrice: Long? = null,
+    @SerializedName("uz" ) var uz : String? = null,
+    @SerializedName("ru" ) var ru : String? = null,
+    @SerializedName("en" ) var en : String? = null
 
-    val currency: Currency? = null,
-    val string: String? = null,
-    val type: Type? = null,
-    val categories: List<String>? = null,
-
-    @Json(name = "brand_id")
-    val brandID: String? = null,
-
-    @Json(name = "rate_id")
-    val rateID: String? = null,
-
-    val image: String? = null,
-
-    @Json(name = "active_in_menu")
-    val activeInMenu: Boolean? = null,
-
-    @Json(name = "has_modifier")
-    val hasModifier: Boolean? = null,
-
-    @Json(name = "from_time")
-    val fromTime: String? = null,
-
-    @Json(name = "to_time")
-    val toTime: String? = null,
-
-    @Json(name = "off_always")
-    val offAlways: Boolean? = null,
-
-    val gallery: Any? = null,
-    val title: Title? = null,
-    val description: Title? = null,
-    val active: Boolean? = null,
-
-    @Json(name = "iiko_id")
-    val iikoID: String? = null,
-
-    @Json(name = "jowi_id")
-    val jowiID: String? = null,
-
-    val discounts: Any? = null
 )
 
 enum class Currency(val value: String) {
@@ -161,7 +108,3 @@ enum class Type(val value: String) {
         }
     }
 }
-
-data class Namespaces (
-    val common: Map<String, String>? = null
-)

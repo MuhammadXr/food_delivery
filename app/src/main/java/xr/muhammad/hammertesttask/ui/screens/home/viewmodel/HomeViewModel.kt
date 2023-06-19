@@ -6,6 +6,7 @@ import xr.muhammad.hammertesttask.api.models.Category
 import xr.muhammad.hammertesttask.api.models.FeatureMember
 import xr.muhammad.hammertesttask.api.models.GeoObject
 import xr.muhammad.hammertesttask.api.models.LocationResponse
+import xr.muhammad.hammertesttask.api.models.Product
 
 interface HomeViewModel {
     val locationState: StateFlow<GeoObject>
@@ -21,5 +22,7 @@ interface HomeViewModel {
     fun getAllFoodData()
 
     fun setLocation(geoObject: GeoObject)
+
+    fun addToCart(product: Product)
 
 }

@@ -24,7 +24,7 @@ class ApiModule {
     fun provideFoodApi(): FoodApi {
         val loggingInterceptor = HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
 
-        val BASE_URL = "https://maxway.uz/_next/data/_bxrNVTML5k0YvfNPB_x4/"
+        val BASE_URL = "https://customer.api.delever.uz/"
 
         val client = OkHttpClient.Builder()
             .writeTimeout(10, TimeUnit.SECONDS)
@@ -45,7 +45,7 @@ class ApiModule {
     fun provideLocationApi(): LocationApi {
         val loggingInterceptor = HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
 
-        val BASE_URL = "https://geocode-maps.yandex.ru/1.x/"
+        val BASE_URL = "https://geocode-maps.yandex.ru/"
 
         val client = OkHttpClient.Builder()
             .writeTimeout(10, TimeUnit.SECONDS)

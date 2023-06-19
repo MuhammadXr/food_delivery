@@ -1,16 +1,23 @@
 package xr.muhammad.hammertesttask.repository.impl
 
+import kotlinx.coroutines.flow.Flow
+import xr.muhammad.hammertesttask.api.local.CartEntity
+import xr.muhammad.hammertesttask.api.local.FoodEntities
 import xr.muhammad.hammertesttask.api.models.FoodResponse
 import xr.muhammad.hammertesttask.api.models.LocationResponse
 import xr.muhammad.hammertesttask.api.remote.FoodApi
 import xr.muhammad.hammertesttask.api.remote.LocationApi
 import xr.muhammad.hammertesttask.repository.AppRepository
+import xr.muhammad.hammertesttask.room.CartDao
+import xr.muhammad.hammertesttask.room.FoodDao
 import javax.inject.Inject
 
 
 class AppRepositoryImpl @Inject constructor(
-    val foodApi: FoodApi,
-    val locationApi: LocationApi
+    private val foodApi: FoodApi,
+    private val locationApi: LocationApi,
+    private val foodDao: FoodDao,
+    private val cartDao: CartDao
 ) : AppRepository {
 
 
@@ -31,5 +38,25 @@ class AppRepositoryImpl @Inject constructor(
         }else{
             null
         }
+    }
+
+    override suspend fun insertFoodsToLocal(foodEntities: FoodEntities) {
+        foodDao.insertFoods(foodEntity = foodEntities)
+    }
+
+    override fun readFoodsFromLocal(): Flow<FoodEntities> {
+        return foodDao.readFoodDataBase()
+    }
+
+    override suspend fun insertCartToLocal(cartEntity: CartEntity) {
+        cartDao.insertCart(cartEntity)
+    }
+
+    override fun readCartsFromLocal(): Flow<List<CartEntity>> {
+        return cartDao.readCartDataBase()
+    }
+
+    override suspend fun deleteAllCarts() {
+        cartDao.deleteAll()
     }
 }

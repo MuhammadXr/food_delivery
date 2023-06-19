@@ -3,6 +3,7 @@ package xr.muhammad.hammertesttask
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.safeContentPadding
 import androidx.compose.material.BottomNavigation
@@ -15,11 +16,14 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import dagger.hilt.android.AndroidEntryPoint
 import xr.muhammad.hammertesttask.ui.navigation.Screen
 import xr.muhammad.hammertesttask.ui.navigation.SetupGraph
@@ -34,7 +38,16 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            HammerTestTaskTheme {
+
+            val systemUiController = rememberSystemUiController()
+            systemUiController.setSystemBarsColor(
+                color = Color(0xFFE9E9E9)
+            )
+            systemUiController.setStatusBarColor(
+                color = Color(0xFFFFCD82)
+            )
+
+            HammerTestTaskTheme (darkTheme = false){
                 // A surface container using the 'background' color from the theme
                 Surface(
                     modifier = Modifier.fillMaxSize(),
@@ -45,7 +58,9 @@ class MainActivity : ComponentActivity() {
                     Scaffold(
                         Modifier.safeContentPadding(),
                         bottomBar = {
-                            BottomNavigation {
+                            BottomNavigation (
+                                backgroundColor = Color(0xFFC9C9C9)
+                                    ){
                                 val navBackStackEntry by navController.currentBackStackEntryAsState()
                                 val currentDestination = navBackStackEntry?.destination
                                 val items = listOf(
@@ -54,15 +69,22 @@ class MainActivity : ComponentActivity() {
                                     Screen.Profile
                                 )
                                 items.forEach { screen ->
+                                    var selected = currentDestination?.hierarchy?.any { it.route == screen.route } == true
                                     BottomNavigationItem(
                                         icon = {
                                             Icon(
                                                 imageVector = screen.icon,
-                                                contentDescription = null
+                                                contentDescription = null,
+                                                tint = if (selected) Color(0xFFE27D00) else Color.Black
                                             )
                                         },
-                                        selected = currentDestination?.hierarchy?.any { it.route == screen.route } == true,
-                                        label = { Text(text = screen.route) },
+                                        selected = selected,
+                                        label = {
+                                            Text(
+                                                text = screen.route,
+                                                fontWeight = FontWeight.W600,
+                                                color = if (selected) Color(0xFFE27D00) else Color.Black)
+                                                },
                                         onClick = {
                                             navController.navigate(screen.route) {
                                                 popUpTo(navController.graph.findStartDestination().id) {
@@ -71,29 +93,13 @@ class MainActivity : ComponentActivity() {
                                                 launchSingleTop = true
                                                 restoreState = true
                                             }
-                                        }
+                                        },
                                     )
                                 }
                             }
 
                         }
                     ) { innerPadding ->
-//                        NavHost(
-//                            navController = navController,
-//                            startDestination = Screen.Home.route,
-//                            Modifier.padding(innerPadding)
-//                        ) {
-//                            composable(Screen.Home.route) {
-//                                HomeScreen(navController = navController).Content()
-//                            }
-//                            composable(Screen.Cart.route) {
-//                                HomeScreen(navController = navController).Content()
-//                            }
-//                            composable(Screen.Profile.route) {
-//                                HomeScreen(navController = navController).Content()
-//                            }
-//
-//                        }
                         SetupGraph(navController = navController, padding = innerPadding)
                     }
 
